@@ -1,0 +1,30 @@
+#!/bin/bash
+mkdir -p /lib/jvm
+mkdir -p /opt
+if [ ! -x /lib/jvm/jdk* ]; then
+  unzip /usr/src/jdk*.zip -d /lib/jvm/
+fi
+if [ ! -x /opt/hadoop ]; then
+  tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
+  ln -s /opt/hadoop-* /opt/hadoop
+fi
+cp -R /usr/src/conf-examples/ /opt/hadoop/
+mv /opt/hadoop/conf/ /opt/hadoop/conf-org
+ln -s /opt/hadoop/conf-examples/ /opt/hadoop/conf
+export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
+echo JAVA_HOME=$JAVA_HOME >> /opt/hadoop/conf/hadoop-env.sh
+ln -s $JAVA_HOME/bin/javac /bin/
+cd $JAVA_HOME
+chmod a+x `find . -name "*.exe"`
+chmod a+x `find . -name "*.dll"`
+javac -version
+cd /opt/hadoop
+bin/hadoop namenode -format
+echo "Press any key to start HDFS and MapReduce Scheduler ..."
+read
+/opt/hadoop/bin/hadoop-daemon.sh start namenode
+/opt/hadoop/bin/hadoop-daemon.sh start datanode
+/opt/hadoop/bin/hadoop-daemon.sh start jobtracker
+/opt/hadoop/bin/hadoop-daemon.sh start tasktracker
+cygstart http://localhost:50070
+cygstart http://localhost:50030
