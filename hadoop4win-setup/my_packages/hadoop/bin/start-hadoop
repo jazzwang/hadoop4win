@@ -1,5 +1,4 @@
-echo "Press any key to start HDFS and MapReduce Scheduler ..."
-read
+#!/bin/bash
 /opt/hadoop/bin/hadoop-daemon.sh start namenode
 /opt/hadoop/bin/hadoop-daemon.sh start datanode
 /opt/hadoop/bin/hadoop-daemon.sh start jobtracker
