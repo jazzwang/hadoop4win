@@ -1,0 +1,8 @@
+echo "Press any key to start HDFS and MapReduce Scheduler ..."
+read
+/opt/hadoop/bin/hadoop-daemon.sh start namenode
+/opt/hadoop/bin/hadoop-daemon.sh start datanode
+/opt/hadoop/bin/hadoop-daemon.sh start jobtracker
+/opt/hadoop/bin/hadoop-daemon.sh start tasktracker
+cygstart http://localhost:50070
+cygstart http://localhost:50030

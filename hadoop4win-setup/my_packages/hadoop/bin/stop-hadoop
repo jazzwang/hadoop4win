@@ -1,0 +1,6 @@
+echo "Press any key to stop HDFS and MapReduce Scheduler ..."
+read
+/opt/hadoop/bin/hadoop-daemon.sh stop tasktracker
+/opt/hadoop/bin/hadoop-daemon.sh stop jobtracker
+/opt/hadoop/bin/hadoop-daemon.sh stop datanode
+/opt/hadoop/bin/hadoop-daemon.sh stop namenode
