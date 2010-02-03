@@ -78,9 +78,9 @@ IF NOT EXIST "%CYGWIN_ROOT%\etc\setup" (
 REM -- Note that last-* must *not* containing whitespace, e.g. " " etc. 
 REM -- This is why there below is no space in front of ">".
 
-echo Install> "%CYGWIN_ROOT%\etc\setup\last-action"
-echo %LOCAL_REPOSITORY%> "%CYGWIN_ROOT%\etc\setup\last-cache"
-echo cygwin_mirror> "%CYGWIN_ROOT%\etc\setup\last-mirror"
+echo Install > "%CYGWIN_ROOT%\etc\setup\last-action"
+echo %LOCAL_REPOSITORY% > "%CYGWIN_ROOT%\etc\setup\last-cache"
+echo cygwin_mirror > "%CYGWIN_ROOT%\etc\setup\last-mirror"
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Finally, run Cygwin setup quietly
@@ -90,7 +90,7 @@ echo To run  %CYGWIN_SETUP% -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%
 
 REM real do cygwin installation
 
-"%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%"
+"%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Installation of Hadoop and JDK
