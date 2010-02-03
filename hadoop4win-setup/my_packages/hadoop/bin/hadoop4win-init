@@ -23,12 +23,11 @@ chmod a+x `find . -name "*.dll"`
 javac -version
 cd /opt/hadoop
 bin/hadoop namenode -format
-bin/hadoop fs -mkdir tmp
-echo "Press any key to start HDFS and MapReduce Scheduler ..."
-read
 /opt/hadoop/bin/hadoop-daemon.sh start namenode
 /opt/hadoop/bin/hadoop-daemon.sh start datanode
 /opt/hadoop/bin/hadoop-daemon.sh start jobtracker
 /opt/hadoop/bin/hadoop-daemon.sh start tasktracker
 cygstart http://localhost:50070
 cygstart http://localhost:50030
+bin/hadoop fs -mkdir tmp
+exit

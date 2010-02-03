@@ -25,6 +25,7 @@ set JDK_MIRROR=http://tsmc.classcloud.org/
 set CYGWIN_ROOT=C:\hadoop4win
 set LOCAL_REPOSITORY=%cd%
 set CYGWIN_SETUP=%LOCAL_REPOSITORY%\cygwin_mirror\cyg-setup.exe
+set OLDPATH=%PATH%
 set PATH=%PATH%;%cd%\bin
 set CYGWIN=nodosfilewarning
 
@@ -82,6 +83,14 @@ REM -- This is why there below is no space in front of ">".
 echo Install > "%CYGWIN_ROOT%\etc\setup\last-action"
 echo %LOCAL_REPOSITORY% > "%CYGWIN_ROOT%\etc\setup\last-cache"
 echo cygwin_mirror > "%CYGWIN_ROOT%\etc\setup\last-mirror"
+echo "" > "%CYGWIN_ROOT%\etc\setup\setup.rc"
+echo "" > "%CYGWIN_ROOT%\etc\setup\net-method"
+echo "" > "%CYGWIN_ROOT%\etc\setup\net-proxy-host"
+echo "" > "%CYGWIN_ROOT%\etc\setup\net-proxy-port"
+echo "" > "%CYGWIN_ROOT%\etc\setup\extrakeys"
+echo "" > "%CYGWIN_ROOT%\etc\setup\chooser_window_settings"
+echo "" > "%CYGWIN_ROOT%\etc\setup\installed.db"
+echo "" > "%CYGWIN_ROOT%\etc\setup\timestamp"
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Finally, run Cygwin setup quietly
@@ -122,13 +131,16 @@ xcopy /Y /E /I "%MY_PACKAGE%\hadoop\conf-examples" "%HADOOP_DES%\conf-examples"
 
 cls
 echo "====================================================="
-echo " Please run `hadoop4win-init' to extract Hadoop and"
-echo " JDK to proper PATH. It will format HDFS Namenode, too."
-echo " ."
+echo " run `hadoop4win-init' to extract Hadoop and JDK to "
+echo " proper PATH. It will format HDFS Namenode, too."
+echo "====================================================="  
+%CYGWIN_ROOT%\bin\bash --login -c "/bin/hadoop4win-init"
+cls
+echo "====================================================="
 echo " Use `start-hadoop' and `stop-hadoop' to run single"
 echo " machine hadoop configuration."
 echo " ."
 echo " Use `jps' to check java process for troubleshooting."
-echo "====================================================="
-  
+echo "====================================================="  
+set PATH=%OLDPATH%
 CALL "%CYGWIN_ROOT%\Cygwin.bat"
