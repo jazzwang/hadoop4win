@@ -26,6 +26,7 @@ set CYGWIN_ROOT=C:\hadoop4win
 set LOCAL_REPOSITORY=%cd%
 set CYGWIN_SETUP=%LOCAL_REPOSITORY%\cygwin_mirror\cyg-setup.exe
 set PATH=%PATH%;%cd%\bin
+set CYGWIN=nodosfilewarning
 
 set MY_PACKAGE=%LOCAL_REPOSITORY%\my_packages
 set HADOOP_SRC=%MY_PACKAGE%\hadoop\hadoop-*.gz

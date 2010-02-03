@@ -12,8 +12,11 @@ cp -R /usr/src/conf-examples/ /opt/hadoop/
 mv /opt/hadoop/conf/ /opt/hadoop/conf-org
 ln -s /opt/hadoop/conf-examples/ /opt/hadoop/conf
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
-echo JAVA_HOME=$JAVA_HOME >> /opt/hadoop/conf/hadoop-env.sh
+echo export JAVA_HOME=$JAVA_HOME >> /opt/hadoop/conf/hadoop-env.sh
+echo export HADOOP_HOME=/opt/hadoop >> /opt/hadoop/conf/hadoop-env.sh
 ln -s $JAVA_HOME/bin/javac /bin/
+ln -s /opt/hadoop/bin/hadoop /bin/
+ln -s /opt/hadoop/bin/hadoop-config.sh /bin/
 cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
