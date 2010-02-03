@@ -1,0 +1,26 @@
+#!/bin/bash
+if [ ! -f /usr/src/hbase-0.20.3.tar.gz ]; then
+  wget http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.3/hbase-0.20.3.tar.gz -o /usr/src/hbase-0.20.3.tar.gz
+fi
+
+tar zxvf /usr/src/hbase-0.20.3.tar.gz -C /opt
+ln -s /opt/hbase-* /opt/hbase
+cp /opt/hadoop/conf/core-site.xml /opt/hbase/conf
+cp /opt/hadoop/conf/hdfs-site.xml /opt/hbase/conf
+cp /opt/hadoop/conf/mapred-site.xml /opt/hbase/conf
+cat >> /opt/hbase/conf/hbase-env.sh << EOF
+  export JAVA_HOME=$JAVA_HOME
+  export HADOOP_CONF_DIR=/opt/hadoop/conf
+  export HBASE_HOME=/opt/hbase
+  export HBASE_MANAGES_ZK=true
+EOF
+cat > /opt/hbase/conf/hbase-site.xml << EOF
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://localhost:9000/hbase</value>
+  </property>
+</configuration>
+EOF
