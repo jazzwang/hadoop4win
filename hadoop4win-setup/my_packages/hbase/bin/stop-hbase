@@ -1,0 +1,4 @@
+#!/bin/bash
+/opt/hbase/bin/hbase-daemon.sh stop regionserver
+/opt/hbase/bin/hbase-daemon.sh stop master
+/opt/hbase/bin/hbase-daemon.sh stop zookeeper
