@@ -19,9 +19,11 @@ REM #     This script is modified from winroll-setup.bat
 REM ####################################################################
 
 set HADOOP_FILE=hadoop-0.20.1.tar.gz
-set HADOOP_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.1/
+set HADOOP_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.1
 set JDK_FILE=jdk1.6.0_18.zip
-set JDK_MIRROR=http://tsmc.classcloud.org/
+set JDK_MIRROR=http://tsmc.classcloud.org
+set HBASE_FILE=hbase-0.20.3.tar.gz
+set HBASE_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.3
 set CYGWIN_ROOT=C:\hadoop4win
 set LOCAL_REPOSITORY=%cd%
 set CYGWIN_SETUP=%LOCAL_REPOSITORY%\cygwin_mirror\cyg-setup.exe
@@ -30,10 +32,12 @@ set PATH=%PATH%;%cd%\bin
 set CYGWIN=nodosfilewarning
 
 set MY_PACKAGE=%LOCAL_REPOSITORY%\my_packages
-set HADOOP_SRC=%MY_PACKAGE%\hadoop\hadoop-*.gz
+set HADOOP_SRC=%MY_PACKAGE%\hadoop\%HADOOP_FILE%
 set HADOOP_DES=%CYGWIN_ROOT%\usr\src
-set JDK_SRC=%MY_PACKAGE%\jdk\jdk*.zip
+set JDK_SRC=%MY_PACKAGE%\jdk\%JDK_FILE%
 set JDK_DES=%CYGWIN_ROOT%\usr\src
+set HBASE_SRC=%MY_PACKAGE%\hbase\%HBASE_FILE%
+set HBASE_DES=%CYGWIN_ROOT%\usr\src
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Assert that there exists a valid %LOCAL_REPOSITORY% directory.
@@ -100,7 +104,9 @@ echo To run  %CYGWIN_SETUP% -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%
 
 REM real do cygwin installation
 
-"%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
+IF NOT EXIST "%CYGWIN_ROOT%" (
+  "%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
+)
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Installation of Hadoop and JDK
@@ -114,6 +120,12 @@ IF NOT EXIST "%JDK_SRC%" (
   wget "%JDK_MIRROR%/%JDK_FILE%" -O "%MY_PACKAGE%\jdk\%JDK_FILE%"
 )
 
+IF NOT EXIST "%HBASE_SRC%" (
+  wget "%HBASE_MIRROR%/%HBASE_FILE%" -O "%MY_PACKAGE%\hbase\%HBASE_FILE%"
+)
+
+pause
+
 IF NOT EXIST "%JDK_DES%" (
   mkdir "%JDK_DES%"
 )
@@ -124,6 +136,10 @@ IF NOT EXIST "%CYGWIN_ROOT%\opt\hadoop" (
 
 IF NOT EXIST "%CYGWIN_ROOT%\lib\jvm" (
   copy "%JDK_SRC%" "%JDK_DES%"
+)
+
+IF NOT EXIST "%CYGWIN_ROOT%\opt\hbase" (
+  copy "%HBASE_SRC%" "%HBASE_DES%"
 )
 
 copy /Y "%MY_PACKAGE%\hadoop\bin\*" "%CYGWIN_ROOT%\bin"
@@ -138,10 +154,12 @@ echo "====================================================="
 %CYGWIN_ROOT%\bin\bash --login -c "/bin/hadoop4win-init"
 cls
 echo "====================================================="
-echo " Use `start-hadoop' and `stop-hadoop' to run single"
-echo " machine hadoop configuration."
-echo " ."
+echo " Use `start-hadoop' and `stop-hadoop' to run single  "
+echo " machine hadoop configuration.                       "
+echo " .                                                   "
 echo " Use `jps' to check java process for troubleshooting."
+echo " .                                                   "
+echo " Use `hbase-init' to install single machine HBase .  "
 echo "====================================================="  
 set PATH=%OLDPATH%
 CALL "%CYGWIN_ROOT%\Cygwin.bat"

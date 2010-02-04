@@ -3,12 +3,13 @@ if [ ! -f /usr/src/hbase-0.20.3.tar.gz ]; then
   wget http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.3/hbase-0.20.3.tar.gz -O /usr/src/hbase-0.20.3.tar.gz
 fi
 
-tar zxvf /usr/src/hbase-0.20.3.tar.gz -C /opt
-ln -s /opt/hbase-* /opt/hbase
+if [ ! -f /opt/hase* ]; then
+  tar zxvf /usr/src/hbase-0.20.3.tar.gz -C /opt
+  ln -s /opt/hbase-* /opt/hbase
 
-cp /opt/hadoop/conf/core-site.xml /opt/hbase/conf
-cp /opt/hadoop/conf/hdfs-site.xml /opt/hbase/conf
-cp /opt/hadoop/conf/mapred-site.xml /opt/hbase/conf
+  cp /opt/hadoop/conf/core-site.xml /opt/hbase/conf
+  cp /opt/hadoop/conf/hdfs-site.xml /opt/hbase/conf
+  cp /opt/hadoop/conf/mapred-site.xml /opt/hbase/conf
 
 cat >> /opt/hbase/conf/hbase-env.sh << EOF
   export JAVA_HOME=$JAVA_HOME
@@ -32,11 +33,11 @@ cat > /opt/hbase/conf/hbase-site.xml << EOF
 </configuration>
 EOF
 
-echo "export PATH=/opt/hbase/bin/:\$PATH" >> /etc/profile
-echo "/bin/stop-hbase" > ~/.bash_logout
-echo "/bin/stop-hadoop" >> ~/.bash_logout
-echo "/bin/stop-hbase" > /etc/skel/.bash_logout
-echo "/bin/stop-hadoop" >> /etc/skel/.bash_logout
+  echo "export PATH=/opt/hbase/bin/:\$PATH" >> /etc/profile
+  echo "/bin/stop-hbase" > ~/.bash_logout
+  echo "/bin/stop-hadoop" >> ~/.bash_logout
+  echo "/bin/stop-hbase" > /etc/skel/.bash_logout
+  echo "/bin/stop-hadoop" >> /etc/skel/.bash_logout
 
 cat > ~/hbase-test << EOF
 create 'test','data'
@@ -50,15 +51,19 @@ list
 exit
 EOF
 
-clear
-echo "=========================================="
-echo " !! NOTE !!                               "
-echo " please 'source /etc/profile' to update   "
-echo " current \$PATH environment variables or  "
-echo " login again to update \$PATH variables.  "
-echo " .                                        "
-echo " run 'start-hbase' to start hbase daemons."
-echo " run 'stop-hbase'  to stop hbase daemons. "
-echo " run 'hbase shell ~/hbase-test'  to test  "
-echo " hbase services.                          "
-echo "=========================================="
+  clear
+  echo "=========================================="
+  echo " !! NOTE !!                               "
+  echo " please 'source /etc/profile' to update   "
+  echo " current \$PATH environment variables or  "
+  echo " login again to update \$PATH variables.  "
+  echo " .                                        "
+  echo " run 'start-hbase' to start hbase daemons."
+  echo " run 'stop-hbase'  to stop hbase daemons. "
+  echo " run 'hbase shell hbase-test'  to test    "
+  echo " hbase services.                          "
+  echo "=========================================="
+
+  echo " Starting HBase ....."
+  /bin/start-hbase
+fi
