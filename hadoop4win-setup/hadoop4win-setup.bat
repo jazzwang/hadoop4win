@@ -104,7 +104,7 @@ echo To run  %CYGWIN_SETUP% -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%
 
 REM real do cygwin installation
 
-IF NOT EXIST "%CYGWIN_ROOT%" (
+IF NOT EXIST "%CYGWIN_ROOT%\bin\bash.exe" (
   "%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
 )
 
@@ -123,8 +123,6 @@ IF NOT EXIST "%JDK_SRC%" (
 IF NOT EXIST "%HBASE_SRC%" (
   wget "%HBASE_MIRROR%/%HBASE_FILE%" -O "%MY_PACKAGE%\hbase\%HBASE_FILE%"
 )
-
-pause
 
 IF NOT EXIST "%JDK_DES%" (
   mkdir "%JDK_DES%"
