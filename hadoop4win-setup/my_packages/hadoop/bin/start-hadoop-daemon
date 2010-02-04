@@ -4,5 +4,5 @@
 /opt/hadoop/bin/hadoop-daemon.sh start jobtracker
 /opt/hadoop/bin/hadoop-daemon.sh start tasktracker
 echo "=========================================="
-echo "run 'stop-hadoop' to stop hadoop daemons."
+echo "run 'stop-hadoop' to stop hadoop daemons. "
 echo "=========================================="

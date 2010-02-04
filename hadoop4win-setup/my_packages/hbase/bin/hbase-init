@@ -49,3 +49,16 @@ drop 'test'
 list
 exit
 EOF
+
+clear
+echo "=========================================="
+echo " !! NOTE !!                               "
+echo " please 'source /etc/profile' to update   "
+echo " current \$PATH environment variables or  "
+echo " login again to update \$PATH variables.  "
+echo " .                                        "
+echo " run 'start-hbase' to start hbase daemons."
+echo " run 'stop-hbase'  to stop hbase daemons. "
+echo " run 'hbase shell ~/hbase-test'  to test  "
+echo " hbase services.                          "
+echo "=========================================="
