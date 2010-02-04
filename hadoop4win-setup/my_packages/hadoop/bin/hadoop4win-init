@@ -1,16 +1,19 @@
 #!/bin/bash
 mkdir -p /lib/jvm
 mkdir -p /opt
+
 if [ ! -x /lib/jvm/jdk* ]; then
   unzip /usr/src/jdk*.zip -d /lib/jvm/
 fi
+
 if [ ! -x /opt/hadoop ]; then
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   ln -s /opt/hadoop-* /opt/hadoop
+  cp -R /usr/src/conf-examples/ /opt/hadoop/
+  mv /opt/hadoop/conf/ /opt/hadoop/conf-org
+  ln -s /opt/hadoop/conf-examples/ /opt/hadoop/conf
 fi
-cp -R /usr/src/conf-examples/ /opt/hadoop/
-mv /opt/hadoop/conf/ /opt/hadoop/conf-org
-ln -s /opt/hadoop/conf-examples/ /opt/hadoop/conf
+
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
 echo export JAVA_HOME=$JAVA_HOME >> /opt/hadoop/conf/hadoop-env.sh
 echo export HADOOP_HOME=/opt/hadoop >> /opt/hadoop/conf/hadoop-env.sh
