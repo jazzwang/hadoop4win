@@ -127,6 +127,7 @@ IF NOT EXIST "%CYGWIN_ROOT%\lib\jvm" (
 )
 
 copy /Y "%MY_PACKAGE%\hadoop\bin\*" "%CYGWIN_ROOT%\bin"
+copy /Y "%MY_PACKAGE%\hbase\bin\*" "%CYGWIN_ROOT%\bin"
 xcopy /Y /E /I "%MY_PACKAGE%\hadoop\conf-examples" "%HADOOP_DES%\conf-examples"
 
 cls
