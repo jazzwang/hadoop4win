@@ -1,10 +1,11 @@
 #!/bin/bash
-if [ ! -f /usr/src/hbase-0.20.3.tar.gz ]; then
-  wget http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.3/hbase-0.20.3.tar.gz -O /usr/src/hbase-0.20.3.tar.gz
+if [ ! -f /usr/src/hbase-*.tar.gz ]; then
+  echo "Hbase tar ball not found at /usr/src/hbase-*.tar.gz!!"
+  exit
 fi
 
 if [ ! -f /opt/hase* ]; then
-  tar zxvf /usr/src/hbase-0.20.3.tar.gz -C /opt
+  tar zxvf /usr/src/hbase-*.tar.gz -C /opt
   ln -s /opt/hbase-* /opt/hbase
 
   cp /opt/hadoop/conf/core-site.xml /opt/hbase/conf
@@ -51,18 +52,20 @@ list
 exit
 EOF
 
-  clear
-  echo "=========================================="
-  echo " !! NOTE !!                               "
-  echo " please 'source /etc/profile' to update   "
-  echo " current \$PATH environment variables or  "
-  echo " login again to update \$PATH variables.  "
-  echo " .                                        "
-  echo " run 'start-hbase' to start hbase daemons."
-  echo " run 'stop-hbase'  to stop hbase daemons. "
-  echo " run 'hbase shell hbase-test'  to test    "
-  echo " hbase services.                          "
-  echo "=========================================="
+cat >> /etc/profile << EOF
+  echo "============================================"
+  echo " Use 'start-hadoop' to start hadoop daemons."
+  echo " Use 'start-hadoop' to stop  hadoop daemons."
+  echo " ."
+  echo " run 'start-hbase' to start hbase daemons.  "
+  echo " run 'stop-hbase'  to stop hbase daemons.   "
+  echo " run 'hbase shell hbase-test'  to test      "
+  echo " hbase services.                            "
+  echo " ."
+  echo " Use 'jps' to check java process for        "
+  echo " troubleshooting.                           "
+  echo "============================================"
+EOF
 
   echo " Starting HBase ....."
   /bin/start-hbase

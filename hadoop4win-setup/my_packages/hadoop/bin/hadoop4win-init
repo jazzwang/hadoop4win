@@ -24,9 +24,9 @@ echo "export PATH=/opt/hadoop/bin/:$JAVA_HOME/bin:\$PATH" >> /etc/profile
 cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
-javac -version
 cd /opt/hadoop
 bin/hadoop namenode -format
+source /etc/profile
 /bin/start-hadoop
 bin/hadoop fs -mkdir tmp
 echo "/bin/stop-hadoop" > ~/.bash_logout
