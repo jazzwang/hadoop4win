@@ -1,4 +1,4 @@
 #!/bin/bash
-/opt/hbase/bin/hbase-daemon.sh stop regionserver
-/opt/hbase/bin/hbase-daemon.sh stop master
-/opt/hbase/bin/hbase-daemon.sh stop zookeeper
+if [ ! -z "$(jps | grep HRegionServer)" ];then /opt/hbase/bin/hbase-daemon.sh stop regionserver ; fi
+if [ ! -z "$(jps | grep HMaster)" ];then /opt/hbase/bin/hbase-daemon.sh stop master ; fi
+if [ ! -z "$(jps | grep HQuorumPeer)" ];then /opt/hbase/bin/hbase-daemon.sh stop zookeeper ; fi

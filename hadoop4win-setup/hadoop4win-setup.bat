@@ -18,12 +18,12 @@ REM #     http://drbl.nchc.org.tw/drbl-winroll
 REM #     This script is modified from winroll-setup.bat
 REM ####################################################################
 
-set HADOOP_FILE=hadoop-0.20.1.tar.gz
-set HADOOP_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.1
+set HADOOP_FILE=hadoop-0.20.2.tar.gz
+set HADOOP_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.2
 set JDK_FILE=jdk1.6.0_18.zip
-set JDK_MIRROR=http://tsmc.classcloud.org
-set HBASE_FILE=hbase-0.20.3.tar.gz
-set HBASE_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.3
+set JDK_MIRROR=http://www.classcloud.org/hadoop4win
+set HBASE_FILE=hbase-0.20.4.tar.gz
+set HBASE_MIRROR=http://ftp.twaren.net/Unix/Web/apache/hadoop/hbase/hbase-0.20.4
 set CYGWIN_ROOT=C:\hadoop4win
 set LOCAL_REPOSITORY=%cd%
 set CYGWIN_SETUP=%LOCAL_REPOSITORY%\cygwin_mirror\cyg-setup.exe
@@ -104,9 +104,8 @@ echo To run  %CYGWIN_SETUP% -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%
 
 REM real do cygwin installation
 
-IF NOT EXIST "%CYGWIN_ROOT%\bin\bash.exe" (
-  "%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
-)
+"%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%"
+REM "%CYGWIN_SETUP%" -q -d -L -l "%LOCAL_REPOSITORY%\cygwin_mirror" -R "%CYGWIN_ROOT%" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib
 
 REM - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 REM Installation of Hadoop and JDK
@@ -150,14 +149,7 @@ echo " run `hadoop4win-init' to extract Hadoop and JDK to "
 echo " proper PATH. It will format HDFS Namenode, too."
 echo "====================================================="  
 %CYGWIN_ROOT%\bin\bash --login -c "/bin/hadoop4win-init"
+%CYGWIN_ROOT%\bin\bash --login -c "/bin/hbase-init"
 cls
-echo "====================================================="
-echo " Use `start-hadoop' and `stop-hadoop' to run single  "
-echo " machine hadoop configuration.                       "
-echo " .                                                   "
-echo " Use `jps' to check java process for troubleshooting."
-echo " .                                                   "
-echo " Use `hbase-init' to install single machine HBase .  "
-echo "====================================================="  
 set PATH=%OLDPATH%
 CALL "%CYGWIN_ROOT%\Cygwin.bat"
