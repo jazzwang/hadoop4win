@@ -1,0 +1,12 @@
+#!/bin/bash
+if [ ! -f /usr/src/ant-*.zip ]; then
+  echo "Hbase tar ball not found at /usr/src/hbase-*.tar.gz!!"
+  exit
+fi
+
+if [ ! -f /opt/apache-ant* ]; then
+  unzip /usr/src/ant-*.zip -C /opt
+  ln -s /opt/apache-ant-* /opt/ant
+
+  echo "export PATH=/opt/ant/bin/:\$PATH" >> /etc/profile
+fi
