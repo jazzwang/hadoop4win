@@ -10,6 +10,6 @@
       </property>
 	  <property>
 		<name>hadoop.tmp.dir</name>
-		<value>/var/hadoop</value>
+		<value>c:/hadoop4win/var/hadoop</value>
 	  </property>
 </configuration>
