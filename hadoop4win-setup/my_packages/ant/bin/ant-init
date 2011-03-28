@@ -5,8 +5,8 @@ if [ ! -f /usr/src/ant-*.zip ]; then
 fi
 
 if [ ! -f /opt/apache-ant* ]; then
-  unzip /usr/src/ant-*.zip -C /opt
+  cd /opt/
+  unzip /usr/src/ant-*.zip
   ln -s /opt/apache-ant-* /opt/ant
-
   echo "export PATH=/opt/ant/bin/:\$PATH" >> /etc/profile
 fi

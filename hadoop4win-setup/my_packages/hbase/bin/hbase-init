@@ -17,6 +17,7 @@ cat >> /opt/hbase/conf/hbase-env.sh << EOF
   export HADOOP_CONF_DIR=/opt/hadoop/conf
   export HBASE_HOME=/opt/hbase
   export HBASE_MANAGES_ZK=true
+  export HBASE_PID_DIR=c:/hadoop4win/var/hadoop/pid
 EOF
 
 cat > /opt/hbase/conf/hbase-site.xml << EOF
