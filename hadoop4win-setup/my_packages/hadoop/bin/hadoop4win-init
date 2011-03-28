@@ -25,10 +25,10 @@ cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
 cd /opt/hadoop
-bin/hadoop namenode -format
+/opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
 /bin/start-hadoop
-bin/hadoop fs -mkdir tmp
+/opt/hadoop/bin/hadoop fs -mkdir tmp
 echo "/bin/stop-hadoop" > ~/.bash_logout
 echo "/bin/stop-hadoop" > /etc/skel/.bash_logout
 cygstart http://localhost:50070
