@@ -6,7 +6,7 @@ fi
 
 if [ ! -f /opt/hase* ]; then
   tar zxvf /usr/src/hbase-*.tar.gz -C /opt
-  ln -s /opt/hbase-* /opt/hbase
+  mv /opt/hbase-* /opt/hbase
 
   cp /opt/hadoop/conf/core-site.xml /opt/hbase/conf
   cp /opt/hadoop/conf/hdfs-site.xml /opt/hbase/conf
@@ -17,7 +17,7 @@ cat >> /opt/hbase/conf/hbase-env.sh << EOF
   export HADOOP_CONF_DIR=/opt/hadoop/conf
   export HBASE_HOME=/opt/hbase
   export HBASE_MANAGES_ZK=true
-  export HBASE_PID_DIR=c:/hadoop4win/var/hadoop/pid
+  export HBASE_PID_DIR=/var/hbase/pid
 EOF
 
 cat > /opt/hbase/conf/hbase-site.xml << EOF
@@ -27,6 +27,10 @@ cat > /opt/hbase/conf/hbase-site.xml << EOF
   <property>
     <name>hbase.rootdir</name>
     <value>hdfs://localhost:9000/hbase</value>
+  </property>
+  <property>
+    <name>hbase.tmp.dir</name>
+    <value>/var/hbase</value>
   </property>
   <property>
     <name>hbase.cluster.distributed</name>
