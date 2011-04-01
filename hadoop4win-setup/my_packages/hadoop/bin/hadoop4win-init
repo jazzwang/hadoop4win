@@ -3,15 +3,17 @@ mkdir -p /lib/jvm
 mkdir -p /opt
 
 if [ ! -x /lib/jvm/jdk* ]; then
+  echo "Installing Sun JDK ...."
   unzip /usr/src/jdk*.zip -d /lib/jvm/
 fi
 
 if [ ! -x /opt/hadoop ]; then
+  echo "Installing Hadoop ...."
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
-  ln -s /opt/hadoop-* /opt/hadoop
-  cp -R /usr/src/conf-examples/ /opt/hadoop/
-  mv /opt/hadoop/conf/ /opt/hadoop/conf-org
-  ln -s /opt/hadoop/conf-examples/ /opt/hadoop/conf
+  mv /opt/hadoop-* /opt/hadoop
+  cp -R /usr/src/conf-examples/ /opt/hadoop/conf-pseudo
+  mv /opt/hadoop/conf/ /opt/hadoop/conf-local
+  ln -s /opt/hadoop/conf-pseudo /opt/hadoop/conf
 fi
 
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
@@ -28,6 +30,8 @@ cd /opt/hadoop
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
 /bin/start-hadoop
+sleep 10
+/opt/hadoop/bin/hadoop dfsadmin -safemode leave
 /opt/hadoop/bin/hadoop fs -mkdir tmp
 echo "/bin/stop-hadoop" > ~/.bash_logout
 echo "/bin/stop-hadoop" > /etc/skel/.bash_logout

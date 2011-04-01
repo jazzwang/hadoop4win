@@ -174,8 +174,8 @@ echo " run `hadoop4win-init' to extract Hadoop and JDK to "
 echo " proper PATH. It will format HDFS Namenode, too."
 echo "====================================================="  
 %CYGWIN_ROOT%\bin\bash --login -c "/bin/hadoop4win-init"
-%CYGWIN_ROOT%\bin\bash --login -c "/bin/hbase-init"
 %CYGWIN_ROOT%\bin\bash --login -c "/bin/ant-init"
+%CYGWIN_ROOT%\bin\bash --login -c "/bin/hbase-init"
 cls
 set PATH=%OLDPATH%
 CALL "%CYGWIN_ROOT%\Cygwin.bat"
