@@ -4,6 +4,7 @@
 /opt/hadoop/bin/hadoop-daemon.sh start datanode
 /opt/hadoop/bin/hadoop-daemon.sh start jobtracker
 /opt/hadoop/bin/hadoop-daemon.sh start tasktracker
+/opt/hadoop/bin/hadoop dfsadmin -safemode leave
 echo "=========================================="
 echo "run 'stop-hadoop' to stop hadoop daemons. "
 echo "=========================================="
