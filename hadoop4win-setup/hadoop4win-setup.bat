@@ -166,7 +166,6 @@ IF NOT EXIST "%CYGWIN_ROOT%\opt\hadoop" (
 copy /Y "%MY_PACKAGE%\ant\bin\*" "%CYGWIN_ROOT%\bin"
 copy /Y "%MY_PACKAGE%\hbase\bin\*" "%CYGWIN_ROOT%\bin"
 copy /Y "%MY_PACKAGE%\hadoop\bin\*" "%CYGWIN_ROOT%\bin"
-xcopy /Y /E /I "%MY_PACKAGE%\hadoop\conf-examples" "%HADOOP_DES%\conf-examples"
 
 cls
 echo "====================================================="
