@@ -11,9 +11,33 @@ if [ ! -x /opt/hadoop ]; then
   echo "Installing Hadoop ...."
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   mv /opt/hadoop-* /opt/hadoop
-  cp -R /usr/src/conf-examples/ /opt/hadoop/conf-pseudo
-  mv /opt/hadoop/conf/ /opt/hadoop/conf-local
+  cp /opt/hadoop/conf/ /opt/hadoop/conf-local
+  mv /opt/hadoop/conf/ /opt/hadoop/conf-pseudo
   ln -s /opt/hadoop/conf-pseudo /opt/hadoop/conf
+  cat > /opt/hadoop/conf/core-site.xml << EOF
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://localhost:9000</value>
+  </property>
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/var/hadoop/hadoop-\${user.name}</value>
+  </property>
+</configuration>
+EOF
+  cat > /opt/hadoop/conf/hdfs-site.xml << EOF
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+</configuration>
+EOF
 fi
 
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
