@@ -1,0 +1,16 @@
+#!/bin/bash
+if [ -z "$(jps | grep NameNode)" ]; then /bin/start-hadoop; fi
+if [ -z "$(jps | grep HRegionServer)" ]; then
+	cygstart --showminnoactive /bin/bash -c /bin/start-hbase-daemon
+	for ((i=1;i<=10;i++)); do sleep 1; printf "."; done
+	printf "\n"
+	jps
+else
+	echo "HBase had already started!!"
+	jps
+fi
+
+echo "============================================"
+echo " run 'cd ~; hbase shell hbase-test' to test "
+echo " hbase services.                            "
+echo "============================================"
