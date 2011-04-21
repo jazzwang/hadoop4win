@@ -183,6 +183,7 @@ Section "Hadoop 0.20.2" Hadoop
   File my_packages/hadoop/bin/hadoop4win-init
   File my_packages/hadoop/bin/stop-hadoop
   File my_packages/hadoop/bin/start-hadoop
+  File my_packages/hadoop/bin/start-hadoop-daemon
 SectionEnd
 
 Section "Ant 1.8.2" 
