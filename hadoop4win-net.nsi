@@ -179,8 +179,6 @@ Section "Hadoop 0.20.2" Hadoop
     Quit
 
   ;Related Script
-  SetOutPath "$INSTDIR\etc\postinstall"
-  File /oname=z1_hadoop4win.sh  my_packages/hadoop/bin/hadoop4win-init
   SetOutPath "$INSTDIR\bin"
   File my_packages/hadoop/bin/hadoop4win-init
   File my_packages/hadoop/bin/stop-hadoop
@@ -201,8 +199,6 @@ Section "Ant 1.8.2"
     Quit
 
   ;Related Script
-  SetOutPath "$INSTDIR\etc\postinstall"
-  File /oname=z2_ant.sh my_packages/ant/bin/ant-init
   SetOutPath "$INSTDIR\bin"
   File my_packages/ant/bin/ant-init
 SectionEnd
@@ -221,8 +217,6 @@ Section "HBase 0.20.6"
     Quit
 
   ;Related Script
-  SetOutPath "$INSTDIR\etc\postinstall"
-  File /oname=z3_hbase.sh my_packages/hbase/bin/hbase-init
   SetOutPath "$INSTDIR\bin"
   File my_packages/hbase/bin/hbase-init
   File my_packages/hbase/bin/stop-hbase
@@ -238,6 +232,12 @@ Section "" Install
   nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -D -O -s http://mirror.mcs.anl.gov/cygwin -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
   nsExec::Exec 'cmd /c move "$INSTDIR\http*" "$INSTDIR\cygwin_mirror"'
   nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
+  IfFileExists $INSTDIR\bin\hadoop4win-init 0 +1
+    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
+  IfFileExists $INSTDIR\bin\ant-init 0 +1
+    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/ant-init"'
+  IfFileExists $INSTDIR\bin\hbase-init 0 +1
+    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/hbase-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -247,7 +247,7 @@ Section "" Install
   ;Create shortcuts
   CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut "$SMPROGRAMS\$StartMenuFolder\hadoop4win.lnk" "$INSTDIR\Cygwin.bat"
-  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\uninstall.exe"
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\uninstall.lnk" "$INSTDIR\uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 
   ;Store installation folder
