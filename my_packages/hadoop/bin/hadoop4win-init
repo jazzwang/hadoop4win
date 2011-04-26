@@ -11,7 +11,7 @@ if [ ! -x /opt/hadoop ]; then
   echo "Installing Hadoop ...."
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   mv /opt/hadoop-* /opt/hadoop
-  cp /opt/hadoop/conf/ /opt/hadoop/conf-local
+  cp -aRp /opt/hadoop/conf /opt/hadoop/conf-local
   mv /opt/hadoop/conf/ /opt/hadoop/conf-pseudo
   ln -s /opt/hadoop/conf-pseudo /opt/hadoop/conf
   cat > /opt/hadoop/conf/core-site.xml << EOF
@@ -61,14 +61,16 @@ cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
 cd /opt/hadoop
+echo "Formating NameNode ......"
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
-/bin/start-hadoop
-sleep 10
+echo "Start Hadoop for the first time ......"
+/bin/start-hadoop-daemon
+echo "Leaving Safe Mode  ......"
 /opt/hadoop/bin/hadoop dfsadmin -safemode leave
+echo "Create tmp direcotry for default user ......"
 /opt/hadoop/bin/hadoop fs -mkdir tmp
 echo "/bin/stop-hadoop" > ~/.bash_logout
 echo "/bin/stop-hadoop" > /etc/skel/.bash_logout
-cygstart http://localhost:50070
-cygstart http://localhost:50030
-exit
+echo "Stoping Hadoop ......"
+/bin/stop-hadoop

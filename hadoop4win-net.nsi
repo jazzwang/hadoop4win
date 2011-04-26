@@ -11,9 +11,11 @@
 ;--------------------------------
 ;General
 
+  !define VERSION "0.1.5"
+
   ;Name and file
   Name "hadoop4win"
-  OutFile "hadoop4win-setup-net.exe"
+  OutFile "hadoop4win-setup-net_${VERSION}.exe"
 
   ;Default installation folder
   InstallDir "c:\hadoop4win"
@@ -134,14 +136,19 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "Cygwin 1.7" Cygwin 
+Section "Cygwin 1.5.25" Cygwin 
+  ; Cygwin Package is about 45 MB
+  ; Installed Cygwin is about 177 MB
+  AddSize 222000
 
   SectionIn RO
   SetOutPath "$INSTDIR"
   
   ;ADD YOUR OWN FILES HERE...
   ;Download Cygwin Setup File
-  NSISdl::download /TIMEOUT=30000 http://cygwin.com/setup.exe $INSTDIR\cyg-setup.exe
+  IfFileExists $INSTDIR\cyg-setup.exe +7 0
+  DetailPrint "[*] Downloading Cygwin ........."
+  NSISdl::download /TIMEOUT=30000 http://cygwin.com/setup-legacy.exe $INSTDIR\cyg-setup.exe
   Pop $0
   StrCmp $0 "success" +3
     MessageBox MB_OK "Download failed: $0"
@@ -150,13 +157,16 @@ Section "Cygwin 1.7" Cygwin
 SectionEnd
 
 Section "JDK 1.6.0 update 18"
-  ; JDK 1.6.0 update 18 is about 
-  AddSize 43531
+  ; JDK 1.6.0 update 18 is about 64 MB
+  ; /usr/lib/jvm/jdk1.6.0_18 is about 179 MB
+  AddSize 141000
 
-  ;SectionIn RO
+  SectionIn RO
   SetOutPath "$INSTDIR\usr\src"
 
   ;Download JDK Package
+  IfFileExists $INSTDIR\usr\src\jdk1.6.0_18.zip +7 0
+  DetailPrint "[*] Downloading JDK ........."
   NSISdl::download /TIMEOUT=30000 http://www.classcloud.org/hadoop4win/jdk1.6.0_18.zip $INSTDIR\usr\src\jdk1.6.0_18.zip
   Pop $0
   StrCmp $0 "success" +3
@@ -165,13 +175,17 @@ Section "JDK 1.6.0 update 18"
 SectionEnd
 
 Section "Hadoop 0.20.2" Hadoop
-  ; hadoop-0.20.2.tar.gz is about 43,531 KB
-  AddSize 43531
+  ; hadoop-0.20.2.tar.gz is about 43 MB
+  ; /opt/hadoop is about 135 MB
+  AddSize 168000
 
-  ;SectionIn RO
+  SectionIn RO
   SetOutPath "$INSTDIR"
+  File my_packages/hadoop/bin/hadoop.ico
 
   ;Download Hadoop Package
+  IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +7 0
+  DetailPrint "[*] Downloading Hadoop ........."
   NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.2/hadoop-0.20.2.tar.gz $INSTDIR\usr\src\hadoop-0.20.2.tar.gz
   Pop $0
   StrCmp $0 "success" +3
@@ -193,6 +207,8 @@ Section "Ant 1.8.2"
   SetOutPath "$INSTDIR"
 
   ;Download Package
+  IfFileExists $INSTDIR\usr\src\ant-current-bin.zip +7 0
+  DetailPrint "[*] Downloading Ant ........."
   NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/ant/ant-current-bin.zip $INSTDIR\usr\src\ant-current-bin.zip
   Pop $0
   StrCmp $0 "success" +3
@@ -209,8 +225,11 @@ Section "HBase 0.20.6"
   AddSize 43531
 
   SetOutPath "$INSTDIR"
+  File my_packages/hbase/bin/hbase.ico
 
   ;Download HBase Package
+  IfFileExists $INSTDIR\usr\src\hbase-0.20.6.tar.gz +7 0
+  DetailPrint "[*] Downloading HBase ........."
   NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.20.6/hbase-0.20.6.tar.gz $INSTDIR\usr\src\hbase-0.20.6.tar.gz
   Pop $0
   StrCmp $0 "success" +3
@@ -230,15 +249,20 @@ Section "" Install
   SetOutPath "$INSTDIR"
 
   ;Start Installation Process of Cygwin
+  DetailPrint "[*] Downloading Cygwin Packages ........."
   nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -D -O -s http://mirror.mcs.anl.gov/cygwin -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
   nsExec::Exec 'cmd /c move "$INSTDIR\http*" "$INSTDIR\cygwin_mirror"'
+  DetailPrint "[+] Installing Cygwin ........."
   nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
-  IfFileExists $INSTDIR\bin\hadoop4win-init 0 +1
-    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
-  IfFileExists $INSTDIR\bin\ant-init 0 +1
-    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/ant-init"'
-  IfFileExists $INSTDIR\bin\hbase-init 0 +1
-    nsExec::Exec '"$INSTDIR\bin\bash.exe" --login -c "/bin/hbase-init"'
+  IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2
+    DetailPrint "[+] Installing JDK and Hadoop ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
+  IfFileExists $INSTDIR\bin\ant-init 0 +2
+    DetailPrint "[+] Installing Ant ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/ant-init"'
+  IfFileExists $INSTDIR\bin\hbase-init 0 +2
+    DetailPrint "[+] Installing HBase ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hbase-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
@@ -248,6 +272,14 @@ Section "" Install
   ;Create shortcuts
   CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
   CreateShortCut "$SMPROGRAMS\$StartMenuFolder\hadoop4win.lnk" "$INSTDIR\Cygwin.bat"
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\start-hadoop.lnk" "cmd.exe" " /k $INSTDIR\bin\bash.exe --login -c /bin/start-hadoop-daemon" "$INSTDIR\hadoop.ico" 0 SW_SHOWMINIMIZED 
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Hadoop_API_JavaDoc.lnk" "$INSTDIR\opt\hadoop\docs\api\index.html"
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\NameNode_Web_UI.lnk" "http://localhost:50070"
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\JobTracker_Web_UI.lnk" "http://localhost:50030"
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\stop-hadoop.lnk"  "cmd.exe" " /k $INSTDIR\bin\bash.exe --login -c /bin/stop-hadoop"         "$INSTDIR\hadoop.ico" 0 SW_SHOWMINIMIZED
+  IfFileExists $INSTDIR\bin\hbase-init 0 +2
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\start-hbase.lnk"  "cmd.exe" " /k $INSTDIR\bin\bash.exe --login -c /bin/start-hbase-daemon"  "$INSTDIR\hbase.ico" 0 SW_SHOWMINIMIZED
+  CreateShortCut "$SMPROGRAMS\$StartMenuFolder\stop-hbase.lnk"   "cmd.exe" " /k $INSTDIR\bin\bash.exe --login -c /bin/stop-hbase" "$INSTDIR\hbase.ico" 0 SW_SHOWMINIMIZED
   CreateShortCut "$SMPROGRAMS\$StartMenuFolder\uninstall.lnk" "$INSTDIR\uninstall.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -260,6 +292,9 @@ SectionEnd
 
 Function .onInit
 
+  ; Reference:
+  ; http://omega.idv.tw/nsis/SectionC.11.html#C.11
+  ; ----------
   ;Check if there are more than two installers running
   System::Call 'kernel32::CreateMutexA(i 0, i 0, t "myMutex") i .r1 ?e'
   Pop $R0
@@ -315,6 +350,9 @@ Function un.onInit
   
 FunctionEnd
 
+; Reference:
+; http://omega.idv.tw/nsis/SectionC.9.html#C.9
+;
 ; ConnectInternet (使用 Dialer 插件)
 ; Written by Joost Verburg 
 ;
