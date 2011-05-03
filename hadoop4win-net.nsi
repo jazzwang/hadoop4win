@@ -243,11 +243,8 @@ Section "" Install
   SetOutPath "$INSTDIR"
 
   ;Start Installation Process of Cygwin
-  DetailPrint "[*] Downloading Cygwin Packages ........."
-  nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -D -O -s http://mirror.mcs.anl.gov/cygwin -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
-  nsExec::Exec 'cmd /c move "$INSTDIR\http*" "$INSTDIR\cygwin_mirror"'
   DetailPrint "[+] Installing Cygwin ........."
-  nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
+  nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR"'
   IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2
     DetailPrint "[+] Installing JDK and Hadoop ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
