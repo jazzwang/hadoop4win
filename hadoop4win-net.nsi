@@ -143,16 +143,10 @@ Section "Cygwin 1.5.25" Cygwin
 
   SectionIn RO
   SetOutPath "$INSTDIR"
-  
-  ;ADD YOUR OWN FILES HERE...
-  ;Download Cygwin Setup File
-  IfFileExists $INSTDIR\cyg-setup.exe +7 0
-  DetailPrint "[*] Downloading Cygwin ........."
-  NSISdl::download /TIMEOUT=30000 http://cygwin.com/setup-legacy.exe $INSTDIR\cyg-setup.exe
-  Pop $0
-  StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+  IfFileExists $INSTDIR\cyg-setup.exe +3 0
+	DetailPrint "[*] Copying Cygwin Local Mirror ........"
+	File /r cygwin_mirror
+	File files\cyg-setup.exe
 
 SectionEnd
 
@@ -181,7 +175,7 @@ Section "Hadoop 0.20.2" Hadoop
 
   SectionIn RO
   SetOutPath "$INSTDIR"
-  File my_packages/hadoop/bin/hadoop.ico
+  File my_packages\hadoop\bin\hadoop.ico
 
   ;Download Hadoop Package
   IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +7 0
@@ -194,10 +188,10 @@ Section "Hadoop 0.20.2" Hadoop
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
-  File my_packages/hadoop/bin/hadoop4win-init
-  File my_packages/hadoop/bin/stop-hadoop
-  File my_packages/hadoop/bin/start-hadoop
-  File my_packages/hadoop/bin/start-hadoop-daemon
+  File my_packages\hadoop\bin\hadoop4win-init
+  File my_packages\hadoop\bin\stop-hadoop
+  File my_packages\hadoop\bin\start-hadoop
+  File my_packages\hadoop\bin\start-hadoop-daemon
 SectionEnd
 
 Section "Ant 1.8.2" 
@@ -217,7 +211,7 @@ Section "Ant 1.8.2"
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
-  File my_packages/ant/bin/ant-init
+  File my_packages\ant\bin\ant-init
 SectionEnd
 
 Section "HBase 0.20.6"
@@ -225,7 +219,7 @@ Section "HBase 0.20.6"
   AddSize 43531
 
   SetOutPath "$INSTDIR"
-  File my_packages/hbase/bin/hbase.ico
+  File my_packages\hbase\bin\hbase.ico
 
   ;Download HBase Package
   IfFileExists $INSTDIR\usr\src\hbase-0.20.6.tar.gz +7 0
@@ -238,10 +232,10 @@ Section "HBase 0.20.6"
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
-  File my_packages/hbase/bin/hbase-init
-  File my_packages/hbase/bin/stop-hbase
-  File my_packages/hbase/bin/start-hbase
-  File my_packages/hbase/bin/start-hbase-daemon
+  File my_packages\hbase\bin\hbase-init
+  File my_packages\hbase\bin\stop-hbase
+  File my_packages\hbase\bin\start-hbase
+  File my_packages\hbase\bin\start-hbase-daemon
 SectionEnd
 
 Section "" Install
