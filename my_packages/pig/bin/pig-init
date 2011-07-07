@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ ! -f /usr/src/pig-*.tar.gz ]; then
+  echo "Pig tar ball not found at /usr/src/pig-*.tar.gz!!"
+  exit
+fi
+
+if [ ! -f /opt/pig* ]; then
+  tar zxvf /usr/src/pig-*.tar.gz -C /opt
+  mv /opt/pig-* /opt/pig
+  echo "export PATH=/opt/pig/bin/:\$PATH" >> /etc/profile
+fi
