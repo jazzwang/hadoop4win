@@ -11,7 +11,7 @@
 ;--------------------------------
 ;General
 
-  !define VERSION "0.1.5"
+  !define VERSION "0.1.6"
 
   ;Name and file
   Name "hadoop4win"
@@ -238,6 +238,26 @@ Section "HBase 0.20.6"
   File my_packages\hbase\bin\start-hbase-daemon
 SectionEnd
 
+Section "Pig 0.8.1"
+  ; pig-0.8.1.tar.gz is about 119,208 KB after decompress
+  AddSize 119208
+  SetOutPath "$INSTDIR"
+  File my_packages\pig\bin\pig.ico
+
+  ;Download Pig Package
+  IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +7 0
+  DetailPrint "[*] Downloading Pig ........."
+  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz
+  Pop $0
+    StrCmp $0 "success" +3
+    MessageBox MB_OK "Download failed: $0"
+    Quit
+
+  ;Related Script
+  SetOutPath "$INSTDIR\bin"
+  File my_packages\pig\bin\pig-init
+SectionEnd
+
 Section "" Install
 
   SetOutPath "$INSTDIR"
@@ -254,6 +274,9 @@ Section "" Install
   IfFileExists $INSTDIR\bin\hbase-init 0 +2
     DetailPrint "[+] Installing HBase ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hbase-init"'
+  IfFileExists $INSTDIR\bin\pig-init 0 +2
+    DetailPrint "[+] Installing Pig ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/pig-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
