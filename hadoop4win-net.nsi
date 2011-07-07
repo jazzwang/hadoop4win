@@ -214,17 +214,17 @@ Section "Ant 1.8.2"
   File my_packages\ant\bin\ant-init
 SectionEnd
 
-Section "HBase 0.20.6"
-  ;hbase-0.20.6.tar.gz is about 43,531 KB
+Section "HBase 0.90.3"
+  ;hbase-0.90.3.tar.gz is about 43,531 KB
   AddSize 43531
 
   SetOutPath "$INSTDIR"
   File my_packages\hbase\bin\hbase.ico
 
   ;Download HBase Package
-  IfFileExists $INSTDIR\usr\src\hbase-0.20.6.tar.gz +7 0
+  IfFileExists $INSTDIR\usr\src\hbase-0.90.3.tar.gz +7 0
   DetailPrint "[*] Downloading HBase ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.20.6/hbase-0.20.6.tar.gz $INSTDIR\usr\src\hbase-0.20.6.tar.gz
+  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.90.3/hbase-0.90.3.tar.gz $INSTDIR\usr\src\hbase-0.90.3.tar.gz
   Pop $0
   StrCmp $0 "success" +3
     MessageBox MB_OK "Download failed: $0"
@@ -247,7 +247,7 @@ Section "Pig 0.8.1"
   ;Download Pig Package
   IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +7 0
   DetailPrint "[*] Downloading Pig ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz
+  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz $INSTDIR\usr\src\pig-0.8.1.tar.gz
   Pop $0
     StrCmp $0 "success" +3
     MessageBox MB_OK "Download failed: $0"
