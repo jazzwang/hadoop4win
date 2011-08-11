@@ -11,7 +11,7 @@
 ;--------------------------------
 ;General
 
-  !define VERSION "0.1.5"
+  !define VERSION "0.1.6"
 
   ;Name and file
   Name "hadoop4win"
@@ -160,8 +160,8 @@ Section "JDK 1.6.0 update 18"
 
   ;Copying JDK Package
   IfFileExists $INSTDIR\usr\src\jdk1.6.0_18.zip +2 0
-	DetailPrint "[*] Copying JDK ........"
-	File files\jdk1.6.0_18.zip
+      DetailPrint "[*] Copying JDK ........"
+      File files\jdk1.6.0_18.zip
 SectionEnd
 
 Section "Hadoop 0.20.2" Hadoop
@@ -176,8 +176,8 @@ Section "Hadoop 0.20.2" Hadoop
   ;Copying Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
   IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +2 0
-	DetailPrint "[*] Copying Hadoop Package ........"
-	File files\hadoop-0.20.2.tar.gz
+      DetailPrint "[*] Copying Hadoop Package ........"
+      File files\hadoop-0.20.2.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -192,17 +192,19 @@ Section "Ant 1.8.2"
   AddSize 43531
 
   SetOutPath "$INSTDIR\usr\src"
+
+  ;Copying Ant Package
   IfFileExists $INSTDIR\usr\src\ant-current-bin.zip +2 0
-	DetailPrint "[*] Copying Ant Package ........"
-	File files\ant-current-bin.zip
+      DetailPrint "[*] Copying Ant Package ........"
+      File files\ant-current-bin.zip
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
   File my_packages\ant\bin\ant-init
 SectionEnd
 
-Section "HBase 0.20.6"
-  ;hbase-0.20.6.tar.gz is about 43,531 KB
+Section "HBase 0.90.3"
+  ;hbase-0.90.3.tar.gz is about 43,531 KB
   AddSize 43531
 
   SetOutPath "$INSTDIR"
@@ -210,9 +212,9 @@ Section "HBase 0.20.6"
 
   ;Copying HBase Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hbase-0.20.6.tar.gz +2 0
-	DetailPrint "[*] Copying HBase Package ........"
-	File files\hbase-0.20.6.tar.gz
+  IfFileExists $INSTDIR\usr\src\hbase-0.90.3.tar.gz +2 0
+      DetailPrint "[*] Copying HBase Package ........"
+      File files\hbase-0.90.3.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -220,6 +222,38 @@ Section "HBase 0.20.6"
   File my_packages\hbase\bin\stop-hbase
   File my_packages\hbase\bin\start-hbase
   File my_packages\hbase\bin\start-hbase-daemon
+SectionEnd
+
+Section "Pig 0.8.1"
+  ; pig-0.8.1.tar.gz is about 119,208 KB after decompress
+  AddSize 119208
+  SetOutPath "$INSTDIR"
+  File my_packages\pig\bin\pig.ico
+
+  ;Copying Pig Package
+  SetOutPath "$INSTDIR\usr\src"
+  IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +2 0
+      DetailPrint "[*] Copying Pig ........."
+      File files\pig-0.8.1.tar.gz
+
+  ;Related Script
+  SetOutPath "$INSTDIR\bin"
+  File my_packages\pig\bin\pig-init
+SectionEnd
+
+Section "Hive 0.7.1"
+  ; hive-0.7.1-bin.tar.gz is about 23,172 KB after decompress
+  AddSize 23172
+  SetOutPath "$INSTDIR\usr\src"
+
+  ;Copying Hive Package
+  IfFileExists $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz +2 0
+      DetailPrint "[*] Copying Hive ........."
+      File files\hive-0.7.1-bin.tar.gz
+
+  ;Related Script
+  SetOutPath "$INSTDIR\bin"
+  File my_packages\hive\bin\hive-init
 SectionEnd
 
 Section "" Install
@@ -238,6 +272,12 @@ Section "" Install
   IfFileExists $INSTDIR\bin\hbase-init 0 +2
     DetailPrint "[+] Installing HBase ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hbase-init"'
+  IfFileExists $INSTDIR\bin\pig-init 0 +2
+    DetailPrint "[+] Installing Pig ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/pig-init"'
+  IfFileExists $INSTDIR\bin\hive-init 0 +2
+    DetailPrint "[+] Installing Hive ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hive-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"

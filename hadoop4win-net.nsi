@@ -160,12 +160,12 @@ Section "JDK 1.6.0 update 18"
 
   ;Download JDK Package
   IfFileExists $INSTDIR\usr\src\jdk1.6.0_18.zip +7 0
-  DetailPrint "[*] Downloading JDK ........."
-  NSISdl::download /TIMEOUT=30000 http://www.classcloud.org/hadoop4win/jdk1.6.0_18.zip $INSTDIR\usr\src\jdk1.6.0_18.zip
-  Pop $0
-  StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+      DetailPrint "[*] Downloading JDK ........."
+      NSISdl::download /TIMEOUT=30000 http://www.classcloud.org/hadoop4win/jdk1.6.0_18.zip $INSTDIR\usr\src\jdk1.6.0_18.zip
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 SectionEnd
 
 Section "Hadoop 0.20.2" Hadoop
@@ -178,13 +178,14 @@ Section "Hadoop 0.20.2" Hadoop
   File my_packages\hadoop\bin\hadoop.ico
 
   ;Download Hadoop Package
+  SetOutPath "$INSTDIR\usr\src"
   IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +7 0
-  DetailPrint "[*] Downloading Hadoop ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.2/hadoop-0.20.2.tar.gz $INSTDIR\usr\src\hadoop-0.20.2.tar.gz
-  Pop $0
-  StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+      DetailPrint "[*] Downloading Hadoop Package ........."
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.2/hadoop-0.20.2.tar.gz $INSTDIR\usr\src\hadoop-0.20.2.tar.gz
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -198,16 +199,16 @@ Section "Ant 1.8.2"
   ; ant-0.20.2.tar.gz is about 43,531 KB
   AddSize 43531
 
-  SetOutPath "$INSTDIR"
+  SetOutPath "$INSTDIR\usr\src"
 
-  ;Download Package
+  ;Download Ant Package
   IfFileExists $INSTDIR\usr\src\ant-current-bin.zip +7 0
-  DetailPrint "[*] Downloading Ant ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/ant/ant-current-bin.zip $INSTDIR\usr\src\ant-current-bin.zip
-  Pop $0
-  StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+      DetailPrint "[*] Downloading Ant Package ........."
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/ant/ant-current-bin.zip $INSTDIR\usr\src\ant-current-bin.zip
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -222,13 +223,14 @@ Section "HBase 0.90.3"
   File my_packages\hbase\bin\hbase.ico
 
   ;Download HBase Package
+  SetOutPath "$INSTDIR\usr\src"
   IfFileExists $INSTDIR\usr\src\hbase-0.90.3.tar.gz +7 0
-  DetailPrint "[*] Downloading HBase ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.90.3/hbase-0.90.3.tar.gz $INSTDIR\usr\src\hbase-0.90.3.tar.gz
-  Pop $0
-  StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+      DetailPrint "[*] Downloading HBase Packge ........."
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.90.3/hbase-0.90.3.tar.gz $INSTDIR\usr\src\hbase-0.90.3.tar.gz
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -245,13 +247,14 @@ Section "Pig 0.8.1"
   File my_packages\pig\bin\pig.ico
 
   ;Download Pig Package
+  SetOutPath "$INSTDIR\usr\src"
   IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +7 0
-  DetailPrint "[*] Downloading Pig ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz $INSTDIR\usr\src\pig-0.8.1.tar.gz
-  Pop $0
-    StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+      DetailPrint "[*] Downloading Pig ........."
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz $INSTDIR\usr\src\pig-0.8.1.tar.gz
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -259,18 +262,18 @@ Section "Pig 0.8.1"
 SectionEnd
 
 Section "Hive 0.7.1"
-  ; hive-0.7.1.tar.gz is about 23,172 KB after decompress
+  ; hive-0.7.1-bin.tar.gz is about 23,172 KB after decompress
   AddSize 23172
-  SetOutPath "$INSTDIR"
+  SetOutPath "$INSTDIR\usr\src"
 
   ;Download Hive Package
-  IfFileExists $INSTDIR\usr\src\hive-0.7.1.tar.gz +7 0
-  DetailPrint "[*] Downloading Hive ........."
-  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//hive/stable/hive-0.7.1-bin.tar.gz $INSTDIR\usr\src\hive-0.7.1.tar.gz
-  Pop $0
-    StrCmp $0 "success" +3
-    MessageBox MB_OK "Download failed: $0"
-    Quit
+  IfFileExists $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz +7 0
+      DetailPrint "[*] Downloading Hive ........."
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//hive/stable/hive-0.7.1-bin.tar.gz $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz
+      Pop $0
+      StrCmp $0 "success" +3
+      MessageBox MB_OK "Download failed: $0"
+      Quit
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -283,7 +286,7 @@ Section "" Install
 
   ;Start Installation Process of Cygwin
   DetailPrint "[+] Installing Cygwin ........."
-  nsExec::Exec '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR"'
+  nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR"'
   IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2
     DetailPrint "[+] Installing JDK and Hadoop ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
