@@ -6,7 +6,6 @@ fi
 
 if [ ! -f /opt/hive* ]; then
   tar zxvf /usr/src/hive-*.tar.gz -C /opt
-  mv /opt/hive-* /opt/pig
+  mv /opt/hive-* /opt/hive
   echo "export PATH=/opt/hive/bin/:\$PATH" >> /etc/profile
-  echo "export HIVE_HOME=\$(cygpath -w /opt/hive)" >> /etc/profile
 fi
