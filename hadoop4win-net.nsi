@@ -258,6 +258,25 @@ Section "Pig 0.8.1"
   File my_packages\pig\bin\pig-init
 SectionEnd
 
+Section "Hive 0.7.1"
+  ; hive-0.7.1.tar.gz is about 23,172 KB after decompress
+  AddSize 23172
+  SetOutPath "$INSTDIR"
+
+  ;Download Hive Package
+  IfFileExists $INSTDIR\usr\src\hive-0.7.1.tar.gz +7 0
+  DetailPrint "[*] Downloading Hive ........."
+  NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//hive/stable/hive-0.7.1-bin.tar.gz $INSTDIR\usr\src\hive-0.7.1.tar.gz
+  Pop $0
+    StrCmp $0 "success" +3
+    MessageBox MB_OK "Download failed: $0"
+    Quit
+
+  ;Related Script
+  SetOutPath "$INSTDIR\bin"
+  File my_packages\hive\bin\hive-init
+SectionEnd
+
 Section "" Install
 
   SetOutPath "$INSTDIR"
@@ -277,6 +296,9 @@ Section "" Install
   IfFileExists $INSTDIR\bin\pig-init 0 +2
     DetailPrint "[+] Installing Pig ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/pig-init"'
+  IfFileExists $INSTDIR\bin\hive-init 0 +2
+    DetailPrint "[+] Installing Hive ........."
+    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hive-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
