@@ -146,7 +146,7 @@ Section "Cygwin 1.5.25" Cygwin
   IfFileExists $INSTDIR\cyg-setup.exe +3 0
 	DetailPrint "[*] Copying Cygwin Local Mirror ........"
 	File /r cygwin_mirror
-	File files\cyg-setup.exe
+	File cyg-setup.exe
 
 SectionEnd
 
@@ -179,9 +179,9 @@ Section "Hadoop 0.20.2" Hadoop
 
   ;Download Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +7 0
+  IfFileExists $INSTDIR\usr\src\hadoop-0.20.203.0rc1.tar.gz +7 0
       DetailPrint "[*] Downloading Hadoop Package ........."
-      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hadoop/core/hadoop-0.20.2/hadoop-0.20.2.tar.gz $INSTDIR\usr\src\hadoop-0.20.2.tar.gz
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hadoop/core/stable/hadoop-0.20.203.0rc1.tar.gz $INSTDIR\usr\src\hadoop-0.20.203.0rc1.tar.gz
       Pop $0
       StrCmp $0 "success" +3
       MessageBox MB_OK "Download failed: $0"
@@ -202,9 +202,9 @@ Section "Ant 1.8.2"
   SetOutPath "$INSTDIR\usr\src"
 
   ;Download Ant Package
-  IfFileExists $INSTDIR\usr\src\ant-current-bin.zip +7 0
+  IfFileExists $INSTDIR\usr\src\apache-ant-1.8.3-bin.zip +7 0
       DetailPrint "[*] Downloading Ant Package ........."
-      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/ant/ant-current-bin.zip $INSTDIR\usr\src\ant-current-bin.zip
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/ant/binaries/apache-ant-1.8.3-bin.zip $INSTDIR\usr\src\apache-ant-1.8.3-bin.zip
       Pop $0
       StrCmp $0 "success" +3
       MessageBox MB_OK "Download failed: $0"
@@ -224,9 +224,9 @@ Section "HBase 0.90.3"
 
   ;Download HBase Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hbase-0.90.3.tar.gz +7 0
+  IfFileExists $INSTDIR\usr\src\hbase-0.92.0.tar.gz +7 0
       DetailPrint "[*] Downloading HBase Packge ........."
-      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/hbase-0.90.3/hbase-0.90.3.tar.gz $INSTDIR\usr\src\hbase-0.90.3.tar.gz
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.92.0.tar.gz $INSTDIR\usr\src\hbase-0.92.0.tar.gz
       Pop $0
       StrCmp $0 "success" +3
       MessageBox MB_OK "Download failed: $0"
@@ -248,9 +248,9 @@ Section "Pig 0.8.1"
 
   ;Download Pig Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +7 0
+  IfFileExists $INSTDIR\usr\src\pig-0.9.2.tar.gz +7 0
       DetailPrint "[*] Downloading Pig ........."
-      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//pig/pig-0.8.1/pig-0.8.1.tar.gz $INSTDIR\usr\src\pig-0.8.1.tar.gz
+      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache/pig/stable/pig-0.9.2.tar.gz $INSTDIR\usr\src\pig-0.9.2.tar.gz
       Pop $0
       StrCmp $0 "success" +3
       MessageBox MB_OK "Download failed: $0"
@@ -261,24 +261,24 @@ Section "Pig 0.8.1"
   File my_packages\pig\bin\pig-init
 SectionEnd
 
-Section "Hive 0.7.1"
-  ; hive-0.7.1-bin.tar.gz is about 23,172 KB after decompress
-  AddSize 23172
-  SetOutPath "$INSTDIR\usr\src"
-
-  ;Download Hive Package
-  IfFileExists $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz +7 0
-      DetailPrint "[*] Downloading Hive ........."
-      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//hive/stable/hive-0.7.1-bin.tar.gz $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz
-      Pop $0
-      StrCmp $0 "success" +3
-      MessageBox MB_OK "Download failed: $0"
-      Quit
-
-  ;Related Script
-  SetOutPath "$INSTDIR\bin"
-  File my_packages\hive\bin\hive-init
-SectionEnd
+;Section "Hive 0.7.1"
+;  ; hive-0.7.1-bin.tar.gz is about 23,172 KB after decompress
+;  AddSize 23172
+;  SetOutPath "$INSTDIR\usr\src"
+;
+;  ;Download Hive Package
+;  IfFileExists $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz +7 0
+;      DetailPrint "[*] Downloading Hive ........."
+;      NSISdl::download /TIMEOUT=30000 http://ftp.twaren.net/Unix/Web/apache//hive/stable/hive-0.7.1-bin.tar.gz $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz
+;      Pop $0
+;      StrCmp $0 "success" +3
+;      MessageBox MB_OK "Download failed: $0"
+;      Quit
+;
+;  ;Related Script
+;  SetOutPath "$INSTDIR\bin"
+;  File my_packages\hive\bin\hive-init
+;SectionEnd
 
 Section "" Install
 
@@ -299,9 +299,9 @@ Section "" Install
   IfFileExists $INSTDIR\bin\pig-init 0 +2
     DetailPrint "[+] Installing Pig ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/pig-init"'
-  IfFileExists $INSTDIR\bin\hive-init 0 +2
-    DetailPrint "[+] Installing Hive ........."
-    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hive-init"'
+;  IfFileExists $INSTDIR\bin\hive-init 0 +2
+;    DetailPrint "[+] Installing Hive ........."
+;    nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hive-init"'
 
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\uninstall.exe"
