@@ -45,7 +45,7 @@ EOF
   echo "/bin/stop-hbase" > /etc/skel/.bash_logout
   echo "/bin/stop-hadoop" >> /etc/skel/.bash_logout
 
-cat > /etc/skel/hbase-test << EOF
+cat > ~/hbase-test << EOF
 create 'test','data'
 put 'test','row1','data:1','v1'
 put 'test','row2','data:2','v2'
@@ -57,5 +57,21 @@ list
 exit
 EOF
 
-  cp /etc/skel/hbase-test ~/.
+cat >> /etc/profile << EOF
+  echo "============================================"
+  echo " Use 'start-hadoop' to start hadoop daemons."
+  echo " Use 'start-hadoop' to stop  hadoop daemons."
+  echo " ."
+  echo " run 'start-hbase' to start hbase daemons.  "
+  echo " run 'stop-hbase'  to stop hbase daemons.   "
+  echo " run 'hbase shell hbase-test'  to test      "
+  echo " hbase services.                            "
+  echo " ."
+  echo " Use 'jps' to check java process for        "
+  echo " troubleshooting.                           "
+  echo "============================================"
+EOF
+
+  echo " Starting HBase ....."
+  /bin/start-hbase
 fi

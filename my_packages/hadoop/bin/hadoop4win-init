@@ -11,7 +11,7 @@ if [ ! -x /opt/hadoop ]; then
   echo "Installing Hadoop ...."
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   mv /opt/hadoop-* /opt/hadoop
-  cp -aRp /opt/hadoop/conf /opt/hadoop/conf-local
+  cp /opt/hadoop/conf/ /opt/hadoop/conf-local
   mv /opt/hadoop/conf/ /opt/hadoop/conf-pseudo
   ln -s /opt/hadoop/conf-pseudo /opt/hadoop/conf
   cat > /opt/hadoop/conf/core-site.xml << EOF
@@ -51,44 +51,24 @@ EOF
 fi
 
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
-echo "export JAVA_HOME=$JAVA_HOME" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
-echo "export HADOOP_CLASSPATH=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export HADOOP_CONF_DIR=/opt/hadoop/conf" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export HADOOP_HEAPSIZE=128" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export JAVA_HOME=$JAVA_HOME" >> /etc/profile
+echo export JAVA_HOME=$JAVA_HOME >> /opt/hadoop/conf/hadoop-env.sh
+echo export HADOOP_HOME=/opt/hadoop >> /opt/hadoop/conf/hadoop-env.sh
+echo export HADOOP_CLASSPATH=/opt/hadoop >> /opt/hadoop/conf/hadoop-env.sh
+echo export HADOOP_CONF_DIR=/opt/hadoop/conf >> /opt/hadoop/conf/hadoop-env.sh
+echo export JAVA_HOME=$JAVA_HOME >> /etc/profile
 echo "export PATH=/opt/hadoop/bin/:$JAVA_HOME/bin:\$PATH" >> /etc/profile
 cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
 cd /opt/hadoop
-echo "Formating NameNode ......"
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
-echo "Start Hadoop for the first time ......"
-/bin/start-hadoop-daemon
-echo "Leaving Safe Mode  ......"
+/bin/start-hadoop
+sleep 10
 /opt/hadoop/bin/hadoop dfsadmin -safemode leave
-echo "Create tmp direcotry for default user ......"
 /opt/hadoop/bin/hadoop fs -mkdir tmp
 echo "/bin/stop-hadoop" > ~/.bash_logout
 echo "/bin/stop-hadoop" > /etc/skel/.bash_logout
-## Setup Chinese Environment
-## Ref: http://irw.ncut.edu.tw/peterju/cygwin.html
-## Ref: http://hyperrate.com/thread.php?tid=15827
-cat >> /etc/skel/.bashrc << EOF
-stty cs8 -istrip
-stty pass8
-export LANG=zh_TW.UTF-8
-export LC_CTYPE=zh_TW.UTF-8
-alias ls="ls --show-control-chars"
-EOF
-cat >> /etc/skel/.inputrc << EOF
-set meta-flag on
-set input-meta on
-set convert-meta off
-set output-meta on 
-EOF
-echo "Stoping Hadoop ......"
-/bin/stop-hadoop
+cygstart http://localhost:50070
+cygstart http://localhost:50030
+exit
