@@ -1,7 +1,0 @@
-#!/bin/bash
-/opt/hbase/bin/hbase-daemon.sh start zookeeper
-/opt/hbase/bin/hbase-daemon.sh start master
-/opt/hbase/bin/hbase-daemon.sh start regionserver
-echo "=========================================="
-echo "run 'stop-hbase' to stop hbase daemons.   "
-echo "=========================================="

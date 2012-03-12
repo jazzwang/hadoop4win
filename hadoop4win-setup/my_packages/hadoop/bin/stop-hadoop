@@ -1,6 +1,0 @@
-#!/bin/bash
-if [ ! -z "$(jps | grep TaskTracker)" ];then /opt/hadoop/bin/hadoop-daemon.sh stop tasktracker ; fi
-if [ ! -z "$(jps | grep DataNode)" ];then /opt/hadoop/bin/hadoop-daemon.sh stop datanode ; fi
-if [ ! -z "$(jps | grep JobTracker)" ];then /opt/hadoop/bin/hadoop-daemon.sh stop jobtracker ; fi
-if [ ! -z "$(jps | grep SecondaryNameNode)" ];then /opt/hadoop/bin/hadoop-daemon.sh stop secondarynamenode ; fi
-if [ ! -z "$(jps | grep NameNode)" ]; then /opt/hadoop/bin/hadoop-daemon.sh stop namenode ; fi
