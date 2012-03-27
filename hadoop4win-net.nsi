@@ -286,7 +286,7 @@ Section "" Install
 
   ;Start Installation Process of Cygwin
   DetailPrint "[+] Installing Cygwin ........."
-  nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR"'
+  nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib'
   IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2
     DetailPrint "[+] Installing JDK and Hadoop ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
