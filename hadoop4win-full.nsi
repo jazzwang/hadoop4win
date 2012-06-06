@@ -136,7 +136,7 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "Cygwin 1.5.25" Cygwin 
+Section "Cygwin 2.769" Cygwin 
   ; Cygwin Package is about 45 MB
   ; Installed Cygwin is about 177 MB
   AddSize 222000
@@ -150,9 +150,9 @@ Section "Cygwin 1.5.25" Cygwin
 
 SectionEnd
 
-Section "JDK 1.6.0 update 18"
-  ; JDK 1.6.0 update 18 is about 64 MB
-  ; /usr/lib/jvm/jdk1.6.0_18 is about 179 MB
+Section "JDK 1.6.0 update 21"
+  ; JDK 1.6.0 update 21 is about 64 MB
+  ; /usr/lib/jvm/jdk1.6.0_21 is about 179 MB
   AddSize 141000
 
   SectionIn RO
@@ -164,8 +164,8 @@ Section "JDK 1.6.0 update 18"
       File files\jdk1.6.0_18.zip
 SectionEnd
 
-Section "Hadoop 0.20.2" Hadoop
-  ; hadoop-0.20.2.tar.gz is about 43 MB
+Section "Hadoop 1.0.3" Hadoop
+  ; hadoop-1.0.3.tar.gz is about 43 MB
   ; /opt/hadoop is about 135 MB
   AddSize 168000
 
@@ -175,9 +175,9 @@ Section "Hadoop 0.20.2" Hadoop
 
   ;Copying Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hadoop-1.0.3.tar.gz +2 0
       DetailPrint "[*] Copying Hadoop Package ........"
-      File files\hadoop-0.20.2.tar.gz
+      File files\hadoop-1.0.3.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -187,24 +187,24 @@ Section "Hadoop 0.20.2" Hadoop
   File my_packages\hadoop\bin\start-hadoop-daemon
 SectionEnd
 
-Section "Ant 1.8.2" 
-  ; ant-0.20.2.tar.gz is about 43,531 KB
+Section "Ant 1.8.4" 
+  ; ant-1.8.4-bin.tar.gz is about 43,531 KB
   AddSize 43531
 
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying Ant Package
-  IfFileExists $INSTDIR\usr\src\ant-current-bin.zip +2 0
+  IfFileExists $INSTDIR\usr\src\ant-1.8.4-bin.tar.gz +2 0
       DetailPrint "[*] Copying Ant Package ........"
-      File files\ant-current-bin.zip
+      File files\ant-1.8.4-bin.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
   File my_packages\ant\bin\ant-init
 SectionEnd
 
-Section "HBase 0.90.3"
-  ;hbase-0.90.3.tar.gz is about 43,531 KB
+Section "HBase 0.92.1"
+  ;hbase-0.92.1.tar.gz is about 43,531 KB
   AddSize 43531
 
   SetOutPath "$INSTDIR"
@@ -212,9 +212,9 @@ Section "HBase 0.90.3"
 
   ;Copying HBase Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hbase-0.90.3.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hbase-0.92.1.tar.gz +2 0
       DetailPrint "[*] Copying HBase Package ........"
-      File files\hbase-0.90.3.tar.gz
+      File files\hbase-0.92.1.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -241,15 +241,15 @@ Section "Pig 0.8.1"
   File my_packages\pig\bin\pig-init
 SectionEnd
 
-Section "Hive 0.7.1"
-  ; hive-0.7.1-bin.tar.gz is about 23,172 KB after decompress
+Section "Hive 0.8.1"
+  ; hive-0.8.1-bin.tar.gz is about 23,172 KB after decompress
   AddSize 23172
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying Hive Package
-  IfFileExists $INSTDIR\usr\src\hive-0.7.1-bin.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hive-0.8.1-bin.tar.gz +2 0
       DetailPrint "[*] Copying Hive ........."
-      File files\hive-0.7.1-bin.tar.gz
+      File files\hive-0.8.1-bin.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"

@@ -1,11 +1,11 @@
 #!/bin/bash
-if [ ! -f /usr/src/ant-*.zip ]; then
-  echo "Ant zip file is not found at /usr/src/ant-*.zip!!"
+if [ ! -f /usr/src/ant-*.tar.gz ]; then
+  echo "Ant tar.gz file is not found at /usr/src/ant-*.tar.gz!!"
   exit
 fi
 
 if [ ! -f /opt/apache-ant* ]; then
-  unzip /usr/src/ant-*.zip -d /opt
+  tar zxvf /usr/src/ant-*.tar.gz -C /opt
   mv /opt/apache-ant-* /opt/ant
   echo "export PATH=/opt/ant/bin/:\$PATH" >> /etc/profile
 fi
