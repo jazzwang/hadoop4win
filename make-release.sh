@@ -8,6 +8,6 @@ if [ ! -d /tmp/hadoop4win-src ]; then
     wget http://cygwin.com/setup.exe -O /tmp/hadoop4win-src/files/cyg-setup.exe
   fi
   (cd /tmp; zip -r hadoop4win-src-${VERSION}.zip hadoop4win-src; )
-  mv /tmp/hadoop4win-src .
+  mv /tmp/hadoop4win-src-${VERSION}.zip .
   rm -rf /tmp/hadoop4win-src
 fi
