@@ -159,9 +159,9 @@ Section "JDK 1.6.0 update 21"
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying JDK Package
-  IfFileExists $INSTDIR\usr\src\jdk1.6.0_18.zip +2 0
+  IfFileExists $INSTDIR\usr\src\openjdk-7-b146-windows-i586-20_jun_2011.zip +2 0
       DetailPrint "[*] Copying JDK ........"
-      File files\jdk1.6.0_18.zip
+      File files\openjdk-7-b146-windows-i586-20_jun_2011.zip
 SectionEnd
 
 Section "Hadoop 1.0.3" Hadoop
