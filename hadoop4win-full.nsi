@@ -224,17 +224,17 @@ Section "HBase 0.92.1"
   File my_packages\hbase\bin\start-hbase-daemon
 SectionEnd
 
-Section "Pig 0.8.1"
-  ; pig-0.8.1.tar.gz is about 119,208 KB after decompress
+Section "Pig 0.10.0"
+  ; pig-0.10.0.tar.gz is about 119,208 KB after decompress
   AddSize 119208
   SetOutPath "$INSTDIR"
   File my_packages\pig\bin\pig.ico
 
   ;Copying Pig Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\pig-0.8.1.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\pig-0.10.0.tar.gz +2 0
       DetailPrint "[*] Copying Pig ........."
-      File files\pig-0.8.1.tar.gz
+      File files\pig-0.10.0.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -262,7 +262,7 @@ Section "" Install
 
   ;Start Installation Process of Cygwin
   DetailPrint "[+] Installing Cygwin ........."
-  nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR"'
+  nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib,wget'
   IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2
     DetailPrint "[+] Installing JDK and Hadoop ........."
     nsExec::ExecToLog '"$INSTDIR\bin\bash.exe" --login -c "/bin/hadoop4win-init"'
