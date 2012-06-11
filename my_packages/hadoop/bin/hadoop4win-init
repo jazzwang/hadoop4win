@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir -p /lib/jvm
 mkdir -p /opt
+DRIVE=$(cygpath -w / | sed 's#:*##')
 
 if [ ! -x /lib/jvm/jdk* ]; then
   echo "Installing Sun JDK ...."
@@ -17,6 +18,7 @@ if [ ! -x /opt/hadoop ]; then
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   mv /opt/hadoop-* /opt/hadoop
   cp -aRp /opt/hadoop/conf /opt/hadoop/conf-local
+  cp -aRp /opt/hadoop/conf /opt/hadoop/conf-full
   mv /opt/hadoop/conf/ /opt/hadoop/conf-pseudo
   ln -s /opt/hadoop/conf-pseudo /opt/hadoop/conf
   cat > /opt/hadoop/conf/core-site.xml << EOF
@@ -29,7 +31,21 @@ if [ ! -x /opt/hadoop ]; then
   </property>
   <property>
     <name>hadoop.tmp.dir</name>
-    <value>$(cygpath -w /var/hadoop/hadoop)-\${user.name}</value>
+    <value>/var/hadoop/hadoop-\${user.name}</value>
+  </property>
+</configuration>
+EOF
+  cat > /opt/hadoop/conf-full/core-site.xml << EOF
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://$(hostname):9000</value>
+  </property>
+  <property>
+    <name>hadoop.tmp.dir</name>
+    <value>/var/hadoop/hadoop-\${user.name}</value>
   </property>
 </configuration>
 EOF
@@ -43,6 +59,7 @@ EOF
   </property>
 </configuration>
 EOF
+  cp -aRp /opt/hadoop/conf/hdfs-site.xml /opt/hadoop/conf-full/hdfs-site.xml
   cat > /opt/hadoop/conf/mapred-site.xml << EOF
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
@@ -53,13 +70,23 @@ EOF
   </property>
 </configuration>
 EOF
+  cat > /opt/hadoop/conf-full/mapred-site.xml << EOF
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>mapred.job.tracker</name>
+    <value>$(hostname):9001</value>
+  </property>
+</configuration>
+EOF
 fi
 
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
 echo "export JAVA_HOME=$JAVA_HOME" >> /opt/hadoop/conf/hadoop-env.sh
 # HADOOP_HOME is depricated since 1.0.3(?)
 #echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
-#echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
+echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
 echo "export HADOOP_CLASSPATH=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_CONF_DIR=/opt/hadoop/conf" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_HEAPSIZE=128" >> /opt/hadoop/conf/hadoop-env.sh
@@ -72,6 +99,7 @@ cd /opt/hadoop
 echo "Formating NameNode ......"
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
+ln -s /cygdrive/${DRIVE}/var/hadoop /var/hadoop
 # 12-06-09: for windows hadoop cluster, 
 #           we could not create datanode folder
 #           for the first time.
@@ -99,5 +127,5 @@ set input-meta on
 set convert-meta off
 set output-meta on 
 EOF
-echo "Stoping Hadoop ......"
-/bin/stop-hadoop
+#echo "Stoping Hadoop ......"
+#/bin/stop-hadoop
