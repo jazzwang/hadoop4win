@@ -143,11 +143,11 @@ Section "Cygwin 2.769" Cygwin
 
   SectionIn RO
   SetOutPath "$INSTDIR"
-  IfFileExists $INSTDIR\cyg-setup.exe +3 0
+  IfFileExists $INSTDIR\cyg-setup.exe +4 0
 	DetailPrint "[*] Copying Cygwin Local Mirror ........"
 	File /r cygwin_mirror
 	File files\cyg-setup.exe
-
+	File files\apt-cyg
 SectionEnd
 
 Section "JDK 1.6.0 update 21"
@@ -159,9 +159,9 @@ Section "JDK 1.6.0 update 21"
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying JDK Package
-  IfFileExists $INSTDIR\usr\src\openjdk-7-b146-windows-i586-20_jun_2011.zip +2 0
+  IfFileExists $INSTDIR\usr\src\jdk1.6.0_21.zip +2 0
       DetailPrint "[*] Copying JDK ........"
-      File files\openjdk-7-b146-windows-i586-20_jun_2011.zip
+      File files\jdk1.6.0_21.zip
 SectionEnd
 
 Section "Hadoop 1.0.3" Hadoop
