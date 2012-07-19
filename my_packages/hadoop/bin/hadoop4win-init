@@ -1,7 +1,8 @@
 #!/bin/bash
 mkdir -p /lib/jvm
 mkdir -p /opt
-DRIVE=$(cygpath -w / | sed 's#:*##')
+INSTDIR=$(cygpath -w / | sed 's#.:\\#/#')
+ln -s /cygdrive/$(cygpath -w / | sed 's#:.*##')/${INSTDIR) /${INSTDIR}
 
 if [ ! -x /lib/jvm/jdk* ]; then
   echo "Installing Sun JDK ...."
@@ -31,7 +32,7 @@ if [ ! -x /opt/hadoop ]; then
   </property>
   <property>
     <name>hadoop.tmp.dir</name>
-    <value>/var/hadoop/hadoop-\${user.name}</value>
+    <value>${INSTDIR}/var/hadoop/hadoop-\${user.name}</value>
   </property>
 </configuration>
 EOF
@@ -45,7 +46,7 @@ EOF
   </property>
   <property>
     <name>hadoop.tmp.dir</name>
-    <value>/var/hadoop/hadoop-\${user.name}</value>
+    <value>${INSTDIR}/var/hadoop/hadoop-\${user.name}</value>
   </property>
 </configuration>
 EOF
@@ -85,7 +86,7 @@ fi
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
 echo "export JAVA_HOME=$JAVA_HOME" >> /opt/hadoop/conf/hadoop-env.sh
 # HADOOP_HOME is depricated since 1.0.3(?)
-#echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
+echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
 echo "export HADOOP_CLASSPATH=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_CONF_DIR=/opt/hadoop/conf" >> /opt/hadoop/conf/hadoop-env.sh
@@ -99,7 +100,6 @@ cd /opt/hadoop
 echo "Formating NameNode ......"
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
-ln -s /cygdrive/${DRIVE}/var/hadoop /var/hadoop
 # 12-06-09: for windows hadoop cluster, 
 #           we could not create datanode folder
 #           for the first time.
