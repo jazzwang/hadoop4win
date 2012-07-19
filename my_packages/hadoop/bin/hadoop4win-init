@@ -2,7 +2,7 @@
 mkdir -p /lib/jvm
 mkdir -p /opt
 INSTDIR=$(cygpath -w / | sed 's#.:\\#/#')
-ln -s /cygdrive/$(cygpath -w / | sed 's#:.*##')/${INSTDIR) /${INSTDIR}
+ln -s /cygdrive/$(cygpath -w / | sed 's#:.*##')/${INSTDIR} /${INSTDIR}
 
 if [ ! -x /lib/jvm/jdk* ]; then
   echo "Installing Sun JDK ...."
