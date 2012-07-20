@@ -40,6 +40,8 @@
 
   XPStyle on
 
+  BrandingText	"Powered by Free Software Lab, NCHC, Taiwan"
+
 ;--------------------------------
 ;Language Selection Dialog Settings
 
@@ -261,6 +263,7 @@ Section "" Install
   SetOutPath "$INSTDIR"
 
   ;Start Installation Process of Cygwin
+  SetDetailsPrint both
   DetailPrint "[+] Installing Cygwin ........."
   nsExec::ExecToLog '"$INSTDIR\cyg-setup.exe" -q -d -N -L -l "$INSTDIR\cygwin_mirror" -R "$INSTDIR" -P cygrunsrv,file,openssh,perl,procps,ncurses,rsync,sharutils,shutdown,subversion,tcp_wrappers,termcap,unzip,wget,zip,zlib,wget'
   IfFileExists $INSTDIR\bin\hadoop4win-init 0 +2

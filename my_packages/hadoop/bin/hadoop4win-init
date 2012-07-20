@@ -2,10 +2,14 @@
 mkdir -p /lib/jvm
 mkdir -p /opt
 INSTDIR=$(cygpath -w / | sed 's#.:\\#/#')
-ln -s /cygdrive/$(cygpath -w / | sed 's#:.*##')/${INSTDIR} /${INSTDIR}
+INSTDRV=$(cygpath -w / | sed 's#:.*##')
+echo "INSTDIR=$INSTDIR"
+echo "INSTDRV=$INSTDRV"
+echo "ln -s /cygdrive/${INSTDRV}${INSTDIR} ${INSTDIR}"
+ln -s /cygdrive/${INSTDRV}${INSTDIR} ${INSTDIR}
 
 if [ ! -x /lib/jvm/jdk* ]; then
-  echo "Installing Sun JDK ...."
+  echo "[+] Installing Sun JDK ...."
   unzip /usr/src/jdk*.zip -d /lib/jvm/
 fi
 
@@ -15,7 +19,7 @@ if [ -x /apt-cyg ]; then
 fi
 
 if [ ! -x /opt/hadoop ]; then
-  echo "Installing Hadoop ...."
+  echo "[+] Installing Hadoop ...."
   tar zxvf /usr/src/hadoop-*.tar.gz -C /opt/
   mv /opt/hadoop-* /opt/hadoop
   cp -aRp /opt/hadoop/conf /opt/hadoop/conf-local
@@ -81,7 +85,6 @@ EOF
   </property>
 </configuration>
 EOF
-fi
 
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
 echo "export JAVA_HOME=$JAVA_HOME" >> /opt/hadoop/conf/hadoop-env.sh
@@ -97,7 +100,7 @@ cd $JAVA_HOME
 chmod a+x `find . -name "*.exe"`
 chmod a+x `find . -name "*.dll"`
 cd /opt/hadoop
-echo "Formating NameNode ......"
+echo "[+][+] Formating NameNode ......"
 /opt/hadoop/bin/hadoop namenode -format
 source /etc/profile
 # 12-06-09: for windows hadoop cluster, 
@@ -129,3 +132,4 @@ set output-meta on
 EOF
 #echo "Stoping Hadoop ......"
 #/bin/stop-hadoop
+fi
