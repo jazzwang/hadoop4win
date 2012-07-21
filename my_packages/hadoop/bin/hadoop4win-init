@@ -89,8 +89,8 @@ EOF
 export JAVA_HOME=$(dirname /lib/jvm/jdk*/bin/)
 echo "export JAVA_HOME=$JAVA_HOME" >> /opt/hadoop/conf/hadoop-env.sh
 # HADOOP_HOME is depricated since 1.0.3(?)
-echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
-echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
+#echo "export HADOOP_HOME=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
+#echo "export HADOOP_HOME=/opt/hadoop" >> /etc/profile
 echo "export HADOOP_CLASSPATH=/opt/hadoop" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_CONF_DIR=/opt/hadoop/conf" >> /opt/hadoop/conf/hadoop-env.sh
 echo "export HADOOP_HEAPSIZE=128" >> /opt/hadoop/conf/hadoop-env.sh
