@@ -138,7 +138,7 @@
 ;--------------------------------
 ;Installer Sections
 
-Section "Cygwin 2.769" Cygwin 
+Section "Cygwin 2.774" Cygwin 
   ; Cygwin Package is about 45 MB
   ; Installed Cygwin is about 177 MB
   AddSize 222000
@@ -166,8 +166,8 @@ Section "JDK 1.6.0 update 21"
       File files\jdk1.6.0_21.zip
 SectionEnd
 
-Section "Hadoop 0.20.2" Hadoop
-  ; hadoop-0.20.2.tar.gz is about 43 MB
+Section "Hadoop 1.0.3" Hadoop
+  ; hadoop-1.0.3.tar.gz is about 43 MB
   ; /opt/hadoop is about 135 MB
   AddSize 168000
 
@@ -177,9 +177,9 @@ Section "Hadoop 0.20.2" Hadoop
 
   ;Copying Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hadoop-0.20.2.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hadoop-1.0.3.tar.gz +2 0
       DetailPrint "[*] Copying Hadoop Package ........"
-      File files\hadoop-0.20.2.tar.gz
+      File files\hadoop-1.0.3.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
