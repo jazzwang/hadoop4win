@@ -166,8 +166,8 @@ Section "JDK 1.6.0 update 21"
       File files\jdk1.6.0_21.zip
 SectionEnd
 
-Section "Hadoop 1.0.3" Hadoop
-  ; hadoop-1.0.3.tar.gz is about 43 MB
+Section "Hadoop 1.1.1" Hadoop
+  ; hadoop-1.1.1.tar.gz is about 43 MB
   ; /opt/hadoop is about 135 MB
   AddSize 168000
 
@@ -177,9 +177,9 @@ Section "Hadoop 1.0.3" Hadoop
 
   ;Copying Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hadoop-1.0.3.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hadoop-1.1.1.tar.gz +2 0
       DetailPrint "[*] Copying Hadoop Package ........"
-      File files\hadoop-1.0.3.tar.gz
+      File files\hadoop-1.1.1.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -205,7 +205,7 @@ Section "Ant 1.8.4"
   File my_packages\ant\bin\ant-init
 SectionEnd
 
-Section "HBase 0.92.1"
+Section "HBase 0.94.3"
   ;hbase-0.92.1.tar.gz is about 43,531 KB
   AddSize 43531
 
@@ -214,9 +214,9 @@ Section "HBase 0.92.1"
 
   ;Copying HBase Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hbase-0.92.1.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hbase-0.94.3.tar.gz +2 0
       DetailPrint "[*] Copying HBase Package ........"
-      File files\hbase-0.92.1.tar.gz
+      File files\hbase-0.94.3.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
