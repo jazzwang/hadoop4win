@@ -205,7 +205,7 @@ Section "Ant 1.8.4"
   File my_packages\ant\bin\ant-init
 SectionEnd
 
-Section "HBase 0.94.3"
+Section "HBase 0.94.7"
   ;hbase-0.92.1.tar.gz is about 43,531 KB
   AddSize 43531
 
@@ -214,9 +214,9 @@ Section "HBase 0.94.3"
 
   ;Copying HBase Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hbase-0.94.3.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hbase-0.94.7.tar.gz +2 0
       DetailPrint "[*] Copying HBase Package ........"
-      File files\hbase-0.94.3.tar.gz
+      File files\hbase-0.94.7.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
