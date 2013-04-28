@@ -166,8 +166,8 @@ Section "JDK 1.6.0 update 21"
       File files\jdk1.6.0_21.zip
 SectionEnd
 
-Section "Hadoop 1.1.1" Hadoop
-  ; hadoop-1.1.1.tar.gz is about 43 MB
+Section "Hadoop 1.0.4" Hadoop
+  ; hadoop-1.0.4.tar.gz is about 43 MB
   ; /opt/hadoop is about 135 MB
   AddSize 168000
 
@@ -177,9 +177,9 @@ Section "Hadoop 1.1.1" Hadoop
 
   ;Copying Hadoop Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\hadoop-1.1.1.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hadoop-1.0.4.tar.gz +2 0
       DetailPrint "[*] Copying Hadoop Package ........"
-      File files\hadoop-1.1.1.tar.gz
+      File files\hadoop-1.0.4.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -189,16 +189,16 @@ Section "Hadoop 1.1.1" Hadoop
   File my_packages\hadoop\bin\start-hadoop-daemon
 SectionEnd
 
-Section "Ant 1.8.4" 
+Section "Ant 1.9.0" 
   ; ant-1.8.4-bin.tar.gz is about 43,531 KB
   AddSize 43531
 
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying Ant Package
-  IfFileExists $INSTDIR\usr\src\ant-1.8.4-bin.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\ant-1.9.0-bin.tar.gz +2 0
       DetailPrint "[*] Copying Ant Package ........"
-      File files\ant-1.8.4-bin.tar.gz
+      File files\ant-1.9.0-bin.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
@@ -226,7 +226,7 @@ Section "HBase 0.94.7"
   File my_packages\hbase\bin\start-hbase-daemon
 SectionEnd
 
-Section "Pig 0.10.0"
+Section "Pig 0.10.1"
   ; pig-0.10.0.tar.gz is about 119,208 KB after decompress
   AddSize 119208
   SetOutPath "$INSTDIR"
@@ -234,24 +234,24 @@ Section "Pig 0.10.0"
 
   ;Copying Pig Package
   SetOutPath "$INSTDIR\usr\src"
-  IfFileExists $INSTDIR\usr\src\pig-0.10.0.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\pig-0.10.1.tar.gz +2 0
       DetailPrint "[*] Copying Pig ........."
-      File files\pig-0.10.0.tar.gz
+      File files\pig-0.10.1.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
   File my_packages\pig\bin\pig-init
 SectionEnd
 
-Section "Hive 0.8.1"
+Section "Hive 0.9.0"
   ; hive-0.8.1-bin.tar.gz is about 23,172 KB after decompress
   AddSize 23172
   SetOutPath "$INSTDIR\usr\src"
 
   ;Copying Hive Package
-  IfFileExists $INSTDIR\usr\src\hive-0.8.1-bin.tar.gz +2 0
+  IfFileExists $INSTDIR\usr\src\hive-0.9.0-bin.tar.gz +2 0
       DetailPrint "[*] Copying Hive ........."
-      File files\hive-0.8.1-bin.tar.gz
+      File files\hive-0.9.0-bin.tar.gz
 
   ;Related Script
   SetOutPath "$INSTDIR\bin"
