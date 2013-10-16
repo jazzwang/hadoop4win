@@ -4,4 +4,4 @@ wget "http://ftp.twaren.net/Unix/Web/apache/ant/binaries/apache-ant-1.9.2-bin.ta
 wget "http://ftp.twaren.net/Unix/Web/apache/hbase/stable/hbase-0.94.12.tar.gz"		-O hbase-0.94.12.tar.gz
 wget "http://ftp.twaren.net/Unix/Web/apache/hadoop/common/stable/hadoop-1.2.1.tar.gz"	-O hadoop-1.2.1.tar.gz
 wget "http://ftp.twaren.net/Unix/Web/apache/pig/stable/pig-0.11.1.tar.gz"		-O pig-0.11.1.tar.gz
-wget "http://ftp.twaren.net/Unix/Web/apache/hive/stable/hive-0.10.0-bin.tar.gz"		-O hive-0.10.0-bin.tar.gz
+wget "http://ftp.twaren.net/Unix/Web/apache/hive/stable/hive-0.11.0-bin.tar.gz"		-O hive-0.11.0-bin.tar.gz
